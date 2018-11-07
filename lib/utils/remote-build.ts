@@ -18,8 +18,10 @@ import * as JSONStream from 'JSONStream';
 import * as request from 'request';
 import { BalenaSDK } from 'balena-sdk';
 import * as Stream from 'stream';
+import { Pack } from 'tar-stream';
 import { TypedError } from 'typed-error';
 
+import { RegistrySecrets } from './registry-secrets';
 import { tarDirectory } from './compose';
 
 const DEBUG_MODE = !!process.env.DEBUG;
@@ -30,6 +32,7 @@ const TRIM_REGEX = /\n+$/;
 export interface BuildOpts {
 	emulated: boolean;
 	nocache: boolean;
+	registrySecrets: RegistrySecrets;
 }
 
 export interface RemoteBuild {
@@ -210,6 +213,28 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 	}
 }
 
+/**
+ * Return a callback function that takes a tar-stream Pack object as argument
+ * and uses it to add the '.balena/registry-secrets.json' metadata file that
+ * contains usernames and passwords to private docker registries. The builder
+ * will remove the file from the tar stream and use the secrets to pull base
+ * images from users' private registries.
+ * @param registrySecrets JS object containing registry usernames and passwords
+ * @returns A callback function, or undefined if registrySecrets is empty
+ */
+function getTarStreamCallbackForRegistrySecrets(
+	registrySecrets: RegistrySecrets,
+): { (pack: Pack): void } | undefined {
+	if (Object.keys(registrySecrets).length) {
+		return (pack: Pack) => {
+			pack.entry(
+				{ name: '.balena/registry-secrets.json' },
+				JSON.stringify(registrySecrets),
+			);
+		};
+	}
+}
+
 async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 	const path = await import('path');
 	const visuals = await import('resin-cli-visuals');
@@ -218,19 +243,24 @@ async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 	const tarSpinner = new visuals.Spinner('Packaging the project source...');
 	tarSpinner.start();
 	// Tar the directory so that we can send it to the builder
-	const tarStream = await tarDirectory(path.resolve(build.source));
+	const tarStream = await tarDirectory(
+		path.resolve(build.source),
+		getTarStreamCallbackForRegistrySecrets(build.opts.registrySecrets),
+	);
 	tarSpinner.stop();
 
+	const url = await getBuilderEndpoint(
+		build.baseUrl,
+		build.owner,
+		build.app,
+		build.opts,
+	);
+
 	if (DEBUG_MODE) {
-		console.log('[debug] Opening builder connection');
+		console.log(`[debug] Connecting to builder at ${url}`);
 	}
 	const post = request.post({
-		url: await getBuilderEndpoint(
-			build.baseUrl,
-			build.owner,
-			build.app,
-			build.opts,
-		),
+		url,
 		auth: {
 			bearer: build.auth,
 		},

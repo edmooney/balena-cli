@@ -100,7 +100,7 @@ toPosixPath = (systemPath) ->
 	path = require('path')
 	systemPath.replace(new RegExp('\\' + path.sep, 'g'), '/')
 
-exports.tarDirectory = tarDirectory = (dir) ->
+exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	tar = require('tar-stream')
 	klaw = require('klaw')
 	path = require('path')
@@ -126,6 +126,8 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
 			(filename, stats, data) ->
 				pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
+	.then ->
+		preFinalizeCallback?(pack)
 	.then ->
 		pack.finalize()
 		return pack

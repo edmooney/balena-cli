@@ -1,6 +1,7 @@
 import * as Bluebird from 'bluebird';
 import * as Stream from 'stream';
 import { Composition } from 'resin-compose-parse';
+import { Pack } from 'tar-stream';
 import Logger = require('./logger');
 
 interface Image {
@@ -29,4 +30,7 @@ export function loadProject(
 	image?: string,
 ): Bluebird<ComposeProject>;
 
-export function tarDirectory(source: string): Promise<Stream.Readable>;
+export function tarDirectory(
+	source: string,
+	preFinalizeCallback?: { (pack: Pack): void },
+): Promise<Stream.Readable>;
