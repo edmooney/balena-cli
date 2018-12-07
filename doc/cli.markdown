@@ -106,6 +106,12 @@ environment variable (in the same standard URL format).
 	- [env add &#60;key&#62; [value]](#env-add-key-value-)
 	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value-)
 
+- Tags
+
+	- [tags](#tags)
+	- [tag set &#60;tagKey&#62; [value]](#tag-set-tagkey-value-)
+	- [tag rm &#60;tagKey&#62;](#tag-rm-tagkey-)
+
 - Help
 
 	- [help [command...]](#help-command-)
@@ -671,6 +677,84 @@ Examples:
 #### --device, -d
 
 device
+
+# Tags
+
+## tags
+
+Use this command to list all tags for
+a particular application, device or release.
+
+This command lists all application/device/release tags.
+
+Example:
+
+	$ balena tags --application MyApp
+	$ balena tags --device 7cf02a6
+	$ balena tags --release 1234
+
+### Options
+
+#### --application, -a, --app &#60;application&#62;
+
+application name
+
+#### --device, -d &#60;device&#62;
+
+device uuid
+
+#### --release, -r &#60;release&#62;
+
+release id
+
+## tag set &#60;tagKey&#62; [value]
+
+Use this command to set a tag to an application, device or release.
+
+Examples:
+
+	$ balena tag set beta --application MyApp
+	$ balena tag set status tested --application MyApp
+	$ balena tag set status tested --device 7cf02a6
+	$ balena tag set status tested --release 1234
+
+### Options
+
+#### --application, -a, --app &#60;application&#62;
+
+application name
+
+#### --device, -d &#60;device&#62;
+
+device uuid
+
+#### --release, -r &#60;release&#62;
+
+release id
+
+## tag rm &#60;tagKey&#62;
+
+Use this command to remove a tag from an application, device or release.
+
+Examples:
+
+	$ balena tag rm myTagKey --application MyApp
+	$ balena tag rm myTagKey --device 7cf02a6
+	$ balena tag rm myTagKey --release 1234
+
+### Options
+
+#### --application, -a, --app &#60;application&#62;
+
+application name
+
+#### --device, -d &#60;device&#62;
+
+device uuid
+
+#### --release, -r &#60;release&#62;
+
+release id
 
 # Help
 
