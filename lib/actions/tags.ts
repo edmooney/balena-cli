@@ -125,12 +125,17 @@ export const set: CommandDefinition<
 	help: stripIndent`
 		Use this command to set a tag to an application, device or release.
 
+		You can optionally provide a value to be associated with the created
+		tag, as an extra argument after the tag key. When the value isn't
+		provided, a tag with an empty value is created.
+
 		Examples:
 
-			$ balena tag set beta --application MyApp
-			$ balena tag set status tested --application MyApp
-			$ balena tag set status tested --device 7cf02a6
-			$ balena tag set status tested --release 1234
+			$ balena tag set mySimpleTag --application MyApp
+			$ balena tag set myCompositeTag myTagValue --application MyApp
+			$ balena tag set myCompositeTag myTagValue --device 7cf02a6
+			$ balena tag set myCompositeTag myTagValue --release 1234
+			$ balena tag set myCompositeTag "my tag value with whitespaces" --release 1234
 	`,
 	options: [
 		commandOptions.optionalApplication,
