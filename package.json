@@ -134,7 +134,7 @@
     "hasbin": "^1.2.3",
     "humanize": "0.0.9",
     "ignore": "^5.0.2",
-    "inquirer": "^3.1.1",
+    "inquirer": "^7.0.5",
     "is-root": "^1.0.0",
     "js-yaml": "^3.10.0",
     "klaw": "^3.0.0",
@@ -150,7 +150,7 @@
     "prettyjson": "^1.1.3",
     "progress-stream": "^2.0.0",
     "raven": "^2.5.0",
-    "reconfix": "^0.1.0",
+    "reconfix": "^0.3.0",
     "request": "^2.81.0",
     "resin-bundle-resolve": "^0.6.0",
     "resin-cli-form": "^2.0.0",
@@ -174,7 +174,7 @@
     "typed-error": "^3.0.0",
     "umount": "^1.1.6",
     "unzip2": "^0.2.5",
-    "update-notifier": "^2.2.0",
+    "update-notifier": "^4.0.0",
     "window-size": "^1.1.0"
   },
   "optionalDependencies": {
