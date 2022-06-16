@@ -125,7 +125,7 @@
     "docker-toolbelt": "^3.3.5",
     "dockerode": "^2.5.5",
     "dockerode-options": "^0.2.1",
-    "drivelist": "^5.0.22",
+    "drivelist": "^10.0.0",
     "ejs": "^2.5.7",
     "etcher-image-write": "^9.0.3",
     "event-stream": "3.3.4",
