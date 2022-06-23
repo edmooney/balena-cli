@@ -174,7 +174,7 @@
     "typed-error": "^3.0.0",
     "umount": "^1.1.6",
     "unzip2": "^0.2.5",
-    "update-notifier": "^2.2.0",
+    "update-notifier": "^6.0.0",
     "window-size": "^1.1.0"
   },
   "optionalDependencies": {
