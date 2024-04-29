@@ -126,7 +126,7 @@
     "dockerode": "^2.5.5",
     "dockerode-options": "^0.2.1",
     "drivelist": "^5.0.22",
-    "ejs": "^2.5.7",
+    "ejs": "^3.1.10",
     "etcher-image-write": "^9.0.3",
     "event-stream": "3.3.4",
     "express": "^4.13.3",
